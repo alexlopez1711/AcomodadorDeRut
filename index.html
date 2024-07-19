@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="tarjeta-de-visita.png">
+    <style>
+        .contenedor{
+            display: inline-block;
+            padding: 5px;
+            border: 1px solid;
+        }
+        .botonCentrado{
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <title>CorrectorDeRut</title>
+
+</head>
+<body>
+    <div class="contenedor">
+    <form id="filterForm">
+        <label for="inputText"><b>Ingresa Rut:</b></label>
+        <input type="text" id="inputText" pattern="[a-zA-Z0-9 .-]">
+        <button type="submit"  ><img src="filtrar.png" width="15px" height="15px" alt=""></button>
+        <br><br>
+        <label for="outputText"><b>Rut Filtado:</b></label>
+        <input type="text" id="outputText" readonly>
+        <button type="button" onclick="copiarTexto()"><img src="copiar.png" width="16px" height="16px" alt=""></button>
+        <br><br>
+        <button type="button" class="botonCentrado" onclick="limpiarCasillas()"><img src="borrar1.png" width="15px" height="15px" alt=""></button>
+        
+    </form>
+
+    <script>
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            filtrarTexto();
+        });
+
+        function filtrarTexto() {
+            const inputText = document.getElementById('inputText').value;
+            const filteredText = inputText.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+            document.getElementById('outputText').value = filteredText;
+        }
+
+        function copiarTexto() {
+            const outputText = document.getElementById('outputText');
+            outputText.select();
+            document.execCommand('copy')
+        }
+
+        function limpiarCasillas() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+        }
+    </script>
+</body>
+</html>
