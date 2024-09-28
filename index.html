@@ -3,37 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="autor" content="Alexander Lopez">
+    <meta name="description" content="Filtra conjuntos de numeros que cuentan con puntos, comas, guiones o espacios y devuelve solo los numeros y las letras en mayusculas ">
+    <meta name="keywors" content="Filtro numerico">
     <link rel="icon" href="tarjeta-de-visita.png">
+    
     <style>
-        .contenedor{
+        .contenedor {
             display: inline-block;
             padding: 5px;
             border: 1px solid;
+            margin-bottom: 20px;
+            margin-top: 10px;
         }
-        .botonCentrado{
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            margin-right: 10px;
+        }
+        .form-group textarea {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .form-group button {
+            margin-left: 10px;
+        }
+        .botonCentrado {
             display: block;
             margin: 0 auto;
         }
+        .centrado{
+            margin-left: 35%;
+            
+        }
     </style>
+    
     <title>CorrectorDeRut</title>
 
 </head>
 <body>
     <div class="contenedor">
-    <form id="filterForm">
-        <label for="inputText"><b>Ingresa Rut:</b></label>
-        <input type="text" id="inputText" pattern="[a-zA-Z0-9 .-]">
-        <button type="submit"  ><img src="filtrar.png" width="15px" height="15px" alt=""></button>
-        <br><br>
-        <label for="outputText"><b>Rut Filtado:</b></label>
-        <input type="text" id="outputText" readonly>
-        <button type="button" onclick="copiarTexto()"><img src="copiar.png" width="16px" height="16px" alt=""></button>
-        <br><br>
-        <button type="button" class="botonCentrado" onclick="limpiarCasillas()"><img src="borrar1.png" width="15px" height="15px" alt=""></button>
-        
-    </form>
+        <form id="filterForm1">
+            <div class="form-group">
+                <label for="inputText1"><b>Ingresa RUT :</b></label>
+                <input type="text" id="inputText1" pattern="[a-zA-Z0-9.-]" placeholder="          Ingresa un RUT" >
+                <button type="submit"><img src="filtrar.png" width="15px" height="15px" alt=""></button>
+            </div>
+            <div class="form-group">
+                <label for="outputText1"><b>RUT Filtrado:</b></label>
+                <input type="text" id="outputText1" readonly>
+                <button type="button" onclick="copiarTexto1()"><img src="copiar.png" width="16px" height="16px" alt=""></button>
+            </div>
+            <button type="button" class="botonCentrado" onclick="limpiarCasillas1()"><img src="borrar1.png" width="15px" height="15px" alt=""></button>
+        </form>
+    </div>
+    <br>
+    <div class="contenedor centrado">
+        <form id="filterForm">
+            <div class="form-group">
+                <label for="inputText"><b>Ingresados:</b></label>
+                <textarea id="inputText" rows="10" cols="30" pattern="[a-zA-Z0-9.-]" placeholder="     Ingresa lista de RUTS"></textarea>
+                <button type="submit"><img src="filtrar.png" width="25px" height="25px" alt=""></button>
+            </div>
+            <div class="form-group">
+                <label for="outputText"><b>.Filtrados  :</b></label>
+                <textarea id="outputText" rows="10" cols="30" readonly></textarea>
+                <button type="button" onclick="copiarTexto()"><img src="copiar.png" width="25px" height="25px" alt=""></button>
+            </div>
+            <button type="button" class="botonCentrado" onclick="limpiarCasillas()"><img src="borrar1.png" width="25px" height="25px" alt=""></button>
+        </form>
+    </div>
 
     <script>
+        document.getElementById('filterForm1').addEventListener('submit', function(event) {
+            event.preventDefault();
+            filtrarTexto1();
+        });
+
+        function filtrarTexto1() {
+            const inputText = document.getElementById('inputText1').value;
+            const filteredText = inputText.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+            document.getElementById('outputText1').value = filteredText;
+        }
+
+        function copiarTexto1() {
+            const outputText = document.getElementById('outputText1');
+            outputText.select();
+            document.execCommand('copy');
+        }
+
+        function limpiarCasillas1() {
+            document.getElementById('inputText1').value = '';
+            document.getElementById('outputText1').value = '';
+        }
+
         document.getElementById('filterForm').addEventListener('submit', function(event) {
             event.preventDefault();
             filtrarTexto();
@@ -41,14 +107,15 @@
 
         function filtrarTexto() {
             const inputText = document.getElementById('inputText').value;
-            const filteredText = inputText.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
-            document.getElementById('outputText').value = filteredText;
+            const ruts = inputText.split('\n');
+            const filteredRuts = ruts.map(rut => rut.replace(/[^a-zA-Z0-9]/g, '').toUpperCase());
+            document.getElementById('outputText').value = filteredRuts.join('\n');
         }
 
         function copiarTexto() {
             const outputText = document.getElementById('outputText');
             outputText.select();
-            document.execCommand('copy')
+            document.execCommand('copy');
         }
 
         function limpiarCasillas() {
